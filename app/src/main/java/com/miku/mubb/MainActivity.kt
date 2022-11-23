@@ -1,5 +1,7 @@
 package com.miku.mubb
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
 import androidx.activity.ComponentActivity
@@ -10,6 +12,7 @@ import com.miku.mubb.webview.WebViewClientMiku
 
 class MainActivity : ComponentActivity() {
     // private val mBinding: MainPageBinding by lazy { MainPageBinding.inflate(layoutInflater) }
+    private var mAsBuiltinBrowser = false
     private val mClient = WebViewClientMiku(this)
     private var mShouldGoBack = true
     private val mWebView: WebView by lazy { findViewById(R.id.webview) }
@@ -35,8 +38,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun loadDefUrl() {
-        mBrowserModel.loadUrl(mClient.mDefUrl)
+    private fun loadUrl(url: String?) {
+        if (url == null) {
+            mAsBuiltinBrowser = false
+            mBrowserModel.loadUrl(mClient.mDefUrl)
+        } else {
+            mAsBuiltinBrowser = true
+            mBrowserModel.loadUrl(url)
+        }
         mBrowserModel.curWebPageInfo.observe(this) {
             mUrlTextEditor.setText(it.title)
         }
@@ -47,7 +56,8 @@ class MainActivity : ComponentActivity() {
         // setContentView(mBinding.root)
         setContentView(R.layout.main_page)
         initBrowser()
-        loadDefUrl()
+        val url = intent.getStringExtra(INPUT_URL)
+        loadUrl(url)
     }
 
     @Deprecated("Deprecated in Java")
@@ -56,6 +66,17 @@ class MainActivity : ComponentActivity() {
             if (!mBrowserModel.goBack()) finish()
         } else {
             mUrlTextEditor.clearFocus()
+        }
+    }
+
+    companion object {
+        const val TAG = "MainActivity"
+        const val INPUT_URL = "inputUrl"
+
+        fun startActivity(context: Context, url: String) {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra(INPUT_URL, url)
+            context.startActivity(intent)
         }
     }
 }
