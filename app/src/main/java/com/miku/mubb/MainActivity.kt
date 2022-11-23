@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
@@ -36,12 +38,24 @@ class MainActivity : ComponentActivity() {
                 true
             }
         }
+        val btnBack: TextView = findViewById(R.id.iv_back)
+        val btnForward: TextView = findViewById(R.id.iv_forward)
+        val btnMiku: ImageView = findViewById(R.id.iv_miku)
+        btnBack.setOnClickListener {
+            onBackPressed()
+        }
+        btnForward.setOnClickListener {
+            mBrowserModel.goForward()
+        }
+        btnMiku.setOnClickListener {
+            mBrowserModel.returnHomePage()
+        }
     }
 
     private fun loadUrl(url: String?) {
         if (url == null) {
             mAsBuiltinBrowser = false
-            mBrowserModel.loadUrl(mClient.mDefUrl)
+            mBrowserModel.loadUrl(mBrowserModel.mDefUrl)
         } else {
             mAsBuiltinBrowser = true
             mBrowserModel.loadUrl(url)

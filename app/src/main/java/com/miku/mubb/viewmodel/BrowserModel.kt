@@ -12,6 +12,8 @@ class BrowserModel : ViewModel() {
     private val history = MutableLiveData<MutableList<WebPageInfo>>()
     @SuppressLint("StaticFieldLeak")
     private lateinit var webView: WebView
+    val mDefUrl = "https://www.google.co.jp"
+    var shouldClearGoBackHistory = false
     var curWebPageInfo = MutableLiveData<WebPageInfo>()
 
     fun saveHistory(webPageInfo: WebPageInfo) {
@@ -49,5 +51,26 @@ class BrowserModel : ViewModel() {
                 false
             }
         }
+    }
+
+    fun goForward(): Boolean {
+        webView.apply {
+            return if (canGoForward()) {
+                goForward()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    fun returnHomePage() {
+        loadUrl(mDefUrl)
+        shouldClearGoBackHistory = true
+    }
+
+    fun clearGoBackHistory() {
+        webView.clearHistory()
+        shouldClearGoBackHistory = false
     }
 }

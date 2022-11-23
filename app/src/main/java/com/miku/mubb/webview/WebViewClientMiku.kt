@@ -12,7 +12,6 @@ import com.miku.mubb.bean.WebPageInfo
 import com.miku.mubb.utils.ContextProvider
 
 class WebViewClientMiku constructor(private val activity: MainActivity) : WebViewClient() {
-    val mDefUrl = "https://www.google.co.jp"
     var curTitle = ContextProvider.getString(R.string.webpage_non_title)
 
     val webChromeMiku = object : WebChromeClient() {
@@ -33,6 +32,15 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
         webView.settings.useWideViewPort = true
         webView.settings.loadWithOverviewMode = true
         webView.webChromeClient = webChromeMiku
+    }
+
+    override fun onPageFinished(view: WebView?, url: String?) {
+        super.onPageFinished(view, url)
+        activity.getBrowserModel().apply {
+            if (this.shouldClearGoBackHistory) {
+                this.clearGoBackHistory()
+            }
+        }
     }
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
