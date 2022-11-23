@@ -14,7 +14,7 @@ import com.miku.mubb.utils.ContextProvider
 class WebViewClientMiku constructor(private val activity: MainActivity) : WebViewClient() {
     var curTitle = ContextProvider.getString(R.string.webpage_non_title)
 
-    val webChromeMiku = object : WebChromeClient() {
+    private val webChromeMiku = object : WebChromeClient() {
         override fun onReceivedTitle(view: WebView?, title: String?) {
             super.onReceivedTitle(view, title)
             view?.title?.apply {
