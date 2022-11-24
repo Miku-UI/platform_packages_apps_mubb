@@ -84,7 +84,7 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
     override fun onLoadResource(view: WebView?, url: String?) {
         super.onLoadResource(view, url)
         activity.apply {
-            showTipView(getString(R.string.tip_requesting), R.mipmap.miku_requesting)
+            // showTipView(getString(R.string.tip_requesting), R.mipmap.miku_requesting)
         }
     }
 
