@@ -9,6 +9,9 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
+import com.miku.mubb.customview.MikuTipView
+import com.miku.mubb.utils.gone
+import com.miku.mubb.utils.visible
 import com.miku.mubb.viewmodel.BrowserModel
 import com.miku.mubb.webview.WebViewClientMiku
 
@@ -18,11 +21,21 @@ class MainActivity : ComponentActivity() {
     private val mClient = WebViewClientMiku(this)
     private var mShouldGoBack = true
     private val mWebView: WebView by lazy { findViewById(R.id.webview) }
+    private val mTipView: MikuTipView by lazy { findViewById(R.id.miku_tip_view) }
     private val mUrlTextEditor: TextInputEditText by lazy { findViewById(R.id.url_input) }
     private val mBrowserModel: BrowserModel by lazy { ViewModelProvider(this)[BrowserModel::class.java] }
 
     fun getBrowserModel(): BrowserModel {
         return mBrowserModel
+    }
+
+    fun showTipView(tipText: String? = "", tipImage: Int? = R.id.iv_miku_tip_icon) {
+        mTipView.setText(tipText).setImage(tipImage)
+        mTipView.visible()
+    }
+
+    fun hideTipView() {
+        mTipView.gone()
     }
 
     private fun initBrowser() {

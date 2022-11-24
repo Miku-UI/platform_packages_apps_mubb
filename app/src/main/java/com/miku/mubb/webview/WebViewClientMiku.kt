@@ -41,6 +41,7 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
                 this.clearGoBackHistory()
             }
         }
+        activity.hideTipView()
     }
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -52,7 +53,10 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
                 // 处理http和https开头的url
                 // Handle url starts with 'http' or 'https'
                 // view?.loadUrl(request.url.toString())
-                activity.getBrowserModel().loadUrl(request.url.toString())
+                activity.apply {
+                    getBrowserModel().loadUrl(request.url.toString())
+                    showTipView(getString(R.string.tip_loading), R.mipmap.miku_loading)
+                }
                 true
             } else {
                 // 其他自定义的scheme
