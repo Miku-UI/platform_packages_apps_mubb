@@ -1,11 +1,9 @@
 package com.miku.mubb.webview
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.* // ktlint-disable no-wildcard-imports
 import androidx.preference.PreferenceManager
 import com.miku.mubb.MainActivity
 import com.miku.mubb.R
@@ -16,6 +14,13 @@ import com.miku.mubb.utils.ContextProvider
 
 class WebViewClientMiku constructor(private val activity: MainActivity) : WebViewClient() {
     var curTitle = ContextProvider.getString(R.string.webpage_non_title)
+
+    /**
+     * 为true时，说明页面已经成功加载，否则说明加载失败，显示错误页
+     * @loadStatus will be set to true if a page loaded successfully,
+     * otherwise it will be set to false.
+     */
+    private var loadStatus = true
 
     private val webChromeMiku = object : WebChromeClient() {
         override fun onReceivedTitle(view: WebView?, title: String?) {
@@ -29,9 +34,11 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
 
     fun initSetup(webView: WebView) {
         val enableZoom = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(
-            ENABLE_ZOOM, false)
+            ENABLE_ZOOM, false
+        )
         val enableJs = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(
-            ENABLE_JAVASCRIPT, false)
+            ENABLE_JAVASCRIPT, false
+        )
         webView.settings.javaScriptCanOpenWindowsAutomatically = true
         webView.settings.javaScriptEnabled = enableJs
         // webView.settings.builtInZoomControls = true
@@ -48,10 +55,38 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
                 this.clearGoBackHistory()
             }
         }
-        activity.hideTipView()
+        if (loadStatus) {
+            activity.hideTipView()
+        } else {
+            activity.apply {
+                showTipView(getString(R.string.tip_error), R.mipmap.miku_error)
+            }
+        }
+    }
+
+    override fun onReceivedError(
+        view: WebView?,
+        request: WebResourceRequest?,
+        error: WebResourceError?
+    ) {
+        loadStatus = false
+        super.onReceivedError(view, request, error)
+    }
+
+    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+        activity.apply {
+            showTipView(getString(R.string.tip_loading), R.mipmap.miku_loading)
+        }
+        loadStatus = true
+        super.onPageStarted(view, url, favicon)
     }
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        /**
+         * 在开始加载页面前，这应该被设置为false
+         * @loadStatus should be set to false before a page is loaded
+         */
+        loadStatus = false
         if (request?.url == null) return false
         try {
             return if (request.url.toString().startsWith("http://") ||
@@ -60,10 +95,7 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
                 // 处理http和https开头的url
                 // Handle url starts with 'http' or 'https'
                 // view?.loadUrl(request.url.toString())
-                activity.apply {
-                    getBrowserModel().loadUrl(request.url.toString())
-                    showTipView(getString(R.string.tip_loading), R.mipmap.miku_loading)
-                }
+                activity.getBrowserModel().loadUrl(request.url.toString())
                 true
             } else {
                 // 其他自定义的scheme

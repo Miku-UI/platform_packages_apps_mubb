@@ -2,6 +2,7 @@
     <string name="app_name">Miku UI Built-in Browser</string>
     <string name="webpage_non_title">No title</string>
     <string name="tip_loading">Loading...</string>
+    <string name="tip_error">Something went wrong...</string>
     <string name="mubb_settings_title">MUBB Settings</string>
     <string name="switch_javascript">Enable JavaScript</string>
     <string name="switch_javascript_summary">Allow MUBB to execute JavaScript</string>
