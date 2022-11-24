@@ -18,6 +18,7 @@
         android:layout_height="50dp"
         android:id="@+id/url_input"
         android:background="@color/white"
+        android:textAlignment="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/webview"
         app:layout_constraintStart_toStartOf="parent" />
