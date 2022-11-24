@@ -16,4 +16,10 @@
         android:title="@string/switch_zoom"
         android:summary="@string/switch_zoom_summary" />
 
+    <SwitchPreference
+        android:persistent="true"
+        android:key="enable_log"
+        android:title="@string/switch_log"
+        android:summary="@string/switch_log_summary" />
+
 </PreferenceScreen>

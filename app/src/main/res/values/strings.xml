@@ -9,4 +9,6 @@
     <string name="switch_javascript_summary">Allow MUBB to execute JavaScript</string>
     <string name="switch_zoom">Enable Zoom</string>
     <string name="switch_zoom_summary">Allow MUBB to zoom the webpage</string>
+    <string name="switch_log">Allow MUBB record logs</string>
+    <string name="switch_log_summary">Record logs for debug</string>
 </resources>

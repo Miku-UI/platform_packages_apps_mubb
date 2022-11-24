@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.miku.mubb.R
 import com.miku.mubb.bean.WebPageInfo
 import com.miku.mubb.utils.ContextProvider
+import com.miku.mubb.utils.LogRecorder
 
 class BrowserModel : ViewModel() {
     private val history = MutableLiveData<MutableList<WebPageInfo>>()
@@ -71,6 +72,11 @@ class BrowserModel : ViewModel() {
 
     fun clearGoBackHistory() {
         webView.clearHistory()
+        LogRecorder.d(TAG, "Back history clear.")
         shouldClearGoBackHistory = false
+    }
+
+    companion object {
+        const val TAG = "BrowserModel"
     }
 }

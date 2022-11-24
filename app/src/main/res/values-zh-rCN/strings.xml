@@ -10,4 +10,6 @@
     <string name="switch_javascript_summary">允许 MUBB 执行 JavaScript 脚本</string>
     <string name="switch_zoom">启用缩放</string>
     <string name="switch_zoom_summary">允许 MUBB 缩放</string>
+    <string name="switch_log">允许MUBB记录日志</string>
+    <string name="switch_log_summary">记录日志仅用于debug</string>
 </resources>

@@ -10,6 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.miku.mubb.customview.MikuTipView
+import com.miku.mubb.utils.LogRecorder
 import com.miku.mubb.utils.gone
 import com.miku.mubb.utils.visible
 import com.miku.mubb.viewmodel.BrowserModel
@@ -61,6 +62,7 @@ class MainActivity : ComponentActivity() {
             mBrowserModel.goForward()
         }
         btnMiku.setOnClickListener {
+            LogRecorder.d(TAG, "Clicked Miku")
             mBrowserModel.returnHomePage()
         }
     }
@@ -74,6 +76,7 @@ class MainActivity : ComponentActivity() {
             mBrowserModel.loadUrl(url)
         }
         mBrowserModel.curWebPageInfo.observe(this) {
+            LogRecorder.d(TAG, "Received new WebPageInfo: Title: ${it.title}, URL: ${it.url}")
             mUrlTextEditor.setText(it.title)
         }
     }

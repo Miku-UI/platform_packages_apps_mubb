@@ -11,6 +11,7 @@ import com.miku.mubb.bean.WebPageInfo
 import com.miku.mubb.settings.ENABLE_JAVASCRIPT
 import com.miku.mubb.settings.ENABLE_ZOOM
 import com.miku.mubb.utils.ContextProvider
+import com.miku.mubb.utils.LogRecorder
 
 class WebViewClientMiku constructor(private val activity: MainActivity) : WebViewClient() {
     var curTitle = ContextProvider.getString(R.string.webpage_non_title)
@@ -41,6 +42,7 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
         )
         webView.settings.javaScriptCanOpenWindowsAutomatically = true
         webView.settings.javaScriptEnabled = enableJs
+        LogRecorder.d(TAG, "JavaScript support is set to ${webView.settings.javaScriptEnabled}")
         // webView.settings.builtInZoomControls = true
         webView.settings.setSupportZoom(enableZoom)
         webView.settings.useWideViewPort = true
@@ -50,6 +52,7 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
 
     override fun onPageFinished(view: WebView?, url: String?) {
         super.onPageFinished(view, url)
+        LogRecorder.d(TAG, "Page load finished. LoadStatus is $loadStatus")
         activity.getBrowserModel().apply {
             if (this.shouldClearGoBackHistory) {
                 this.clearGoBackHistory()
@@ -72,6 +75,7 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
         request: WebResourceRequest?,
         error: WebResourceError?
     ) {
+        LogRecorder.d(TAG, "Page load failed, error: $error")
         loadStatus = STATUS_ERROR
         super.onReceivedError(view, request, error)
     }
@@ -80,6 +84,7 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
         activity.apply {
             showTipView(getString(R.string.tip_loading), R.mipmap.miku_loading)
         }
+        LogRecorder.d(TAG, "Start to load url: $url")
         loadStatus = STATUS_OK
         super.onPageStarted(view, url, favicon)
     }
@@ -129,5 +134,6 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
         const val STATUS_OK = 0
         const val STATUS_REQUESTING = 1
         const val STATUS_ERROR = 2
+        const val TAG = "WebViewClientMiku"
     }
 }
