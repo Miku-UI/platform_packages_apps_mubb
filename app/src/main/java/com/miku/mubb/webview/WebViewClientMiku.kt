@@ -6,9 +6,12 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.preference.PreferenceManager
 import com.miku.mubb.MainActivity
 import com.miku.mubb.R
 import com.miku.mubb.bean.WebPageInfo
+import com.miku.mubb.settings.ENABLE_JAVASCRIPT
+import com.miku.mubb.settings.ENABLE_ZOOM
 import com.miku.mubb.utils.ContextProvider
 
 class WebViewClientMiku constructor(private val activity: MainActivity) : WebViewClient() {
@@ -25,10 +28,14 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
     }
 
     fun initSetup(webView: WebView) {
+        val enableZoom = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(
+            ENABLE_ZOOM, false)
+        val enableJs = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(
+            ENABLE_JAVASCRIPT, false)
         webView.settings.javaScriptCanOpenWindowsAutomatically = true
-        webView.settings.javaScriptEnabled = true
+        webView.settings.javaScriptEnabled = enableJs
         // webView.settings.builtInZoomControls = true
-        webView.settings.setSupportZoom(true)
+        webView.settings.setSupportZoom(enableZoom)
         webView.settings.useWideViewPort = true
         webView.settings.loadWithOverviewMode = true
         webView.webChromeClient = webChromeMiku

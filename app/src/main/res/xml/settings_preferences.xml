@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/mubb_settings_title" />
+
+    <SwitchPreference
+        android:key="enable_javascript"
+        android:persistent="true"
+        android:title="@string/switch_javascript"
+        android:summary="@string/switch_javascript_summary" />
+
+    <SwitchPreference
+        android:persistent="true"
+        android:key="enable_zoom"
+        android:title="@string/switch_zoom"
+        android:summary="@string/switch_zoom_summary" />
+
+</PreferenceScreen>
