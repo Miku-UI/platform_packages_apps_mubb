@@ -3,6 +3,7 @@
     <string name="app_name">Miku UI 内置浏览器（MUBB）</string>
     <string name="webpage_non_title">无标题</string>
     <string name="tip_loading">努力加载ing</string>
+    <string name="tip_requesting">努力连接服务器ing\n 如果太久没反应那就是挂了或者被墙惹QAQ</string>
     <string name="tip_error">牙白，有什么东西出错了！</string>
     <string name="mubb_settings_title">MUBB 设置</string>
     <string name="switch_javascript">启用 JavaScript</string>

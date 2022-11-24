@@ -81,6 +81,13 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
         super.onPageStarted(view, url, favicon)
     }
 
+    override fun onLoadResource(view: WebView?, url: String?) {
+        super.onLoadResource(view, url)
+        activity.apply {
+            showTipView(getString(R.string.tip_requesting), R.mipmap.miku_requesting)
+        }
+    }
+
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
         /**
          * 在开始加载页面前，这应该被设置为false
