@@ -20,7 +20,7 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
      * @loadStatus will be set to true if a page loaded successfully,
      * otherwise it will be set to false.
      */
-    private var loadStatus = true
+    private var loadStatus = STATUS_REQUESTING
 
     private val webChromeMiku = object : WebChromeClient() {
         override fun onReceivedTitle(view: WebView?, title: String?) {
@@ -55,13 +55,16 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
                 this.clearGoBackHistory()
             }
         }
-        if (loadStatus) {
-            activity.hideTipView()
-        } else {
-            activity.apply {
+        when (loadStatus) {
+            STATUS_OK -> activity.hideTipView()
+            STATUS_ERROR -> activity.apply {
                 showTipView(getString(R.string.tip_error), R.mipmap.miku_error)
             }
+            else -> activity.apply {
+                showTipView(getString(R.string.tip_requesting), R.mipmap.miku_requesting)
+            }
         }
+        loadStatus = STATUS_REQUESTING
     }
 
     override fun onReceivedError(
@@ -69,7 +72,7 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
         request: WebResourceRequest?,
         error: WebResourceError?
     ) {
-        loadStatus = false
+        loadStatus = STATUS_ERROR
         super.onReceivedError(view, request, error)
     }
 
@@ -77,23 +80,25 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
         activity.apply {
             showTipView(getString(R.string.tip_loading), R.mipmap.miku_loading)
         }
-        loadStatus = true
+        loadStatus = STATUS_OK
         super.onPageStarted(view, url, favicon)
     }
 
     override fun onLoadResource(view: WebView?, url: String?) {
         super.onLoadResource(view, url)
-        activity.apply {
-            // showTipView(getString(R.string.tip_requesting), R.mipmap.miku_requesting)
+        if (view?.contentHeight == 0 && loadStatus == STATUS_REQUESTING) {
+            activity.apply {
+                showTipView(getString(R.string.tip_requesting), R.mipmap.miku_requesting)
+            }
         }
     }
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
         /**
-         * 在开始加载页面前，这应该被设置为false
-         * @loadStatus should be set to false before a page is loaded
+         * 在开始加载页面前，这应该被设置为STATUS_REQUESTING
+         * @loadStatus should be set to STATUS_REQUESTING before a page is loaded
          */
-        loadStatus = false
+        loadStatus = STATUS_REQUESTING
         if (request?.url == null) return false
         try {
             return if (request.url.toString().startsWith("http://") ||
@@ -118,5 +123,11 @@ class WebViewClientMiku constructor(private val activity: MainActivity) : WebVie
             // If the target app is not installed, return true so we can get rid of Error Page
             return true
         }
+    }
+
+    companion object {
+        const val STATUS_OK = 0
+        const val STATUS_REQUESTING = 1
+        const val STATUS_ERROR = 2
     }
 }
