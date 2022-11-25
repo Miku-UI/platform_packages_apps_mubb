@@ -11,6 +11,7 @@ class OpenActivity : Activity() {
         val url = intent.data.toString()
         LogRecorder.d(TAG, "Prepare to start MUUB as Built-in Browser, url is $url")
         MainActivity.startActivity(this, url)
+        finish()
     }
 
     companion object {
