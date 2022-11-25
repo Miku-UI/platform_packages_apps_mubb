@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
         }
         btnMiku.setOnClickListener {
             LogRecorder.d(TAG, "Clicked Miku")
-            mBrowserModel.returnHomePage()
+            mBrowserModel.refreshPage()
         }
     }
 

@@ -76,6 +76,10 @@ class BrowserModel : ViewModel() {
         shouldClearGoBackHistory = false
     }
 
+    fun refreshPage() {
+        webView.reload()
+    }
+
     companion object {
         const val TAG = "BrowserModel"
     }
