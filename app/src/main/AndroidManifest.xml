@@ -17,7 +17,11 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:exported="true"
-            android:label="@string/mubb_settings_title" />
+            android:label="@string/mubb_settings_title" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="false">
