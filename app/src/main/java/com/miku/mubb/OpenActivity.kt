@@ -8,7 +8,7 @@ class OpenActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val url = intent.data.toString()
-        LogRecorder.d(TAG, "Prepare to start MUUB as Built-in Browser, url is $url")
+        LogRecorder.d(TAG, "Prepare to start MUBB as Built-in Browser, url is $url")
         MainActivity.startActivity(this, url)
         finish()
     }
