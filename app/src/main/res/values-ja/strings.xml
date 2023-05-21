@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Miku UI Built-in Browser</string>
+  <string name="webpage_non_title">タイトルなし</string>
+  <string name="tip_loading">読み込み中...</string>
+  <string name="tip_requesting">サーバーに接続中です...\n 長時間この画面だったらサーバーがダウンしてるかもしれませんね。 (悲しみ)</string>
+  <string name="tip_error">何かが間違っています...</string>
+  <string name="mubb_settings_title">MUBB 設定</string>
+  <string name="switch_javascript">JavaScript を有効化</string>
+  <string name="switch_javascript_summary">MUBB による JavaScript の実行を許可します</string>
+  <string name="switch_zoom">拡大を有効化</string>
+  <string name="switch_zoom_summary">MUBB で Web ページの拡大表示をできるようにします</string>
+  <string name="switch_log">MUBB のログの記録を許可</string>
+  <string name="switch_log_summary">デバッグのためのログを記録します</string>
+</resources>
